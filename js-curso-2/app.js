@@ -1,3 +1,5 @@
+let listOfGeneratedSecretNumbers = [];
+let maximumNumber = 10;
 let secretNumber = generateRandomNumber();
 let attempt = 1;
 
@@ -10,6 +12,7 @@ let attempt = 1;
 function displayTextOnScreen(tag, text) {
   let field = document.querySelector(tag);
   field.innerHTML = text;
+  responsiveVoice.speak(text, 'US English Male', {rate:1.2});
 }
 
 function initialMessage() {
@@ -41,7 +44,19 @@ function checkGuess() {
 }
 
 function generateRandomNumber() {
-  return parseInt(Math.random() * 10 + 1);
+  let chosenNumber = parseInt(Math.random() * maximumNumber + 1);
+  let numberOfElementsInTheList = listOfGeneratedSecretNumbers.length;
+
+  if (listOfGeneratedSecretNumbers == maximumNumber) {
+    listOfGeneratedSecretNumbers = [];
+  }
+
+  if (listOfGeneratedSecretNumbers.includes(chosenNumber)) { // The includes method checks whether the value is included in the list
+    return generateRandomNumber();
+  } else {
+    listOfGeneratedSecretNumbers.push(chosenNumber);
+    return chosenNumber;
+  }
 }
 
 function clearField() {
